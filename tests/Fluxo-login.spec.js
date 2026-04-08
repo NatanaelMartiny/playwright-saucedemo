@@ -12,28 +12,24 @@ test.describe('SauceDemo - Fluxo de Login', () => {
 
     test('login válido', async ({ page }) => {
         await loginPage.login(USERS.valid.username, USERS.valid.password);
-
         await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
         await expect(page.getByText('Products')).toBeVisible();
     });
 
     test('login inválido', async () => {
         await loginPage.login(USERS.invalid.username, USERS.invalid.password);
-
         const errorMessage = await loginPage.getErrorMessage();
         expect(errorMessage).toContain(MESSAGES.invalidCredentials);
     });
 
     test('login com credenciais vazias', async () => {
         await loginPage.login('', '');
-
         const errorMessage = await loginPage.getErrorMessage();
         expect(errorMessage).toContain(MESSAGES.emptyUsername);
     });
 
     test('login só com username preenchido', async () => {
         await loginPage.login(USERS.valid.username, '');
-
         const errorMessage = await loginPage.getErrorMessage();
         expect(errorMessage).toContain(MESSAGES.emptyPassword);
     });
